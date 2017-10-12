@@ -39,3 +39,109 @@ nAdd();
 result();//1000
 原因:在这段带代码中,result实际上就是闭包f2函数,他一共运行了两次,第一次时值是999,第二次值是1000,这就说明变量n一直存在内存中.
 主要原因是f1是f2的父函数,而f2被赋予了一个全局变量n;
+1.Ajax能够实现异步传输,所依赖的就是JavaScript中的XMLHttpRequest对象。
+2.XMLHttpRequest对象是XMLHttp组建的对象，它是一个抽象的对象，允许脚本从服务器返回的数据或者将数据发送到服务器。
+3.XMLHttpRequest可以实现客户端与服务器只进行数据层面的交互，不必每次刷新页面。
+4.XMLHttpRequest最早在IE 5.0中作为一个ActiveX控件提供，后被广泛运用。
+5.在使用XMLHttpRequest发送前求和处理相应之前需要先创建一个XMLHttpRequest。
+netstat -ano
+netstat -aon|findstr "8080"
+tasklist|findstr "pid"
+taskkill /f /t/ /im javaw.exe
+//create caList table 
+		function createListGroup(userDataId, id, pagerId) {
+			jQuery("#" + id).jqGrid({
+				url: 'murata/im/global/qa00005/qa00005_getCaData/getList',
+				postData: { userDataId: userDataId},
+				datatype: "json",
+				colNames :['No.' , 'リンク' , '件名' , '期限' , '担当' , '進捗' , '効果の確認' , '判定'],
+				colModel:[	{name : 'col0' , index : 'col0' , width:40},
+							{name : 'col1' , index : 'col1'},
+							{name : 'col2' , index : 'col2'},
+							{name : 'col3' , index : 'col3'},
+							{name : 'col4' , index : 'col4'},
+							{name : 'col5' , index : 'col5'},
+							{name : 'col6' , index : 'col6'},
+							{name : 'col7' , index : 'col7'}
+				],                           
+// 				rowNum:10,
+// 				rowList:[10,20,30],
+// 				pager: '#' + pagerId,
+				sortname: 'col1',
+				viewrecords: true,
+				sortorder: "asc",
+				forceFit: true,
+				shrinkToFit:true,
+				jsonReader : {
+					root: "rows",
+// 					page: "page",
+// 					total: "total",
+// 					records: "records",
+					repeatitems: false
+				},
+				height: 'auto',
+				width : $("div .imui-form-container").width()-20
+			});
+			jQuery("#" + id).jqGrid('navGrid','#' + pagerId,{edit:false,add:false,del:false,search:false,refresh:true});
+		};
+    
+    var logger = Logger.getLogger();
+var localeId = Contexts.getAccountContext().locale;
+function getList(request) {
+	var res2  = new TenantDatabase().executeByTemplate('murata/im/global/qa00005/sql/qa00005_select_cadata', {
+		qa08Gt02UserId : DbParameter.string(request.userDataId)
+	});
+	var	arrCa = new Array();
+	var qa08SysMaId ='';
+	var appId ='qa00008';
+	for(var j=0;j<res2.countRow;j++){
+		var jsonTemp ={};
+		//NO.
+		jsonTemp['col0'] = res2.data[j].qt_n0013;
+		//Link
+		qa08SysMaId = res2.data[j].qt_c0074;
+		jsonTemp['col1'] = "<a href='javascript:void(0);' onclick=\"openLink('"+qa08SysMaId+"','"+appId+"')\">link</a>";
+		//件名
+		jsonTemp['col2'] = res2.data[j].qt_c0003;
+		//期限
+		jsonTemp['col3'] = res2.data[j].qt_d0026;
+		//担当
+		jsonTemp['col4'] = res2.data[j].qt_c0269;
+		//効果の確認
+		jsonTemp['col6'] = res2.data[j].qt_c0062;
+		//判定
+		jsonTemp['col7'] = res2.data[j].qt_c0252;
+		arrCa.push(jsonTemp);
+	}
+	var page = request.page == undefined ? 1 : request.page;
+	var rows = request.rows == undefined ? 10 : request.rows;
+	var sord = request.sord == undefined ? 'asc' : request.sord;
+	var sidx = request.sidx == undefined ? 'col0' : request.sidx;
+
+	arrCa.sort(function(a,b) {
+		if (a[sidx] < b[sidx]) {
+			return sord == 'asc' ? +1 : -1;	
+		}
+		if (a[sidx] > b[sidx]) {
+			return sord == 'asc' ? -1 : +1;
+		}
+		return 0;
+	});
+//	
+	var result = {
+		page: page,
+		total: Math.ceil(arrCa.length / rows),
+		records: arrCa.length,
+		rows: arrCa.slice(rows * (page - 1), rows * page)
+	};
+	
+	var response = Web.getHTTPResponse();
+	response.setContentType('application/json; charset=utf-8');
+	response.sendMessageBodyString(ImJson.toJSONString(result, false));
+}
+
+//according to action to execute method
+function execAction(request) {
+	var action = request == undefined ? "init" : request.action || "init";
+	eval(action + "(request)");
+}
