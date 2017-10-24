@@ -1,0 +1,4 @@
+netstat -ano
+netstat -aon|findstr "8080"
+tasklist|findstr "pid"
+taskkill /f /t/ /im javaw.exe
