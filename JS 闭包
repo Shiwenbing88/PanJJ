@@ -1,1 +1,22 @@
-fdff
+JavaScript 语言特殊之处在于,函数内部可以直接读取全局变量;
+var n=999;function f1(){console.log(n)};f1();//999
+另外一方面,函数外部无法读取函数内的局部变量;
+function f1(){var n=999;}f1();console.log(n);//error
+注意:函数内部声明变量时，一定要使用var命令。如果不用的话,你实际上申明了一个全局变量;
+function f1(){n=999;}f1();console.log(n);//999
+闭包的概念：
+由于在JavaScript语言中,只有函数内部的子函数才能读取局部变量,因此可以把闭包简单理解成“定义在函数内部的函数”。
+所以在本质上,闭包就是将函数的内部和函数外部连接起来的桥梁。
+通俗的理解：JavaScript中所有的function都是一个闭包。不过一般来说,嵌套的function所产生的闭包更为强大。这也是我们所称为的闭包。
+闭包的用途：
+1.可以读取函数内部的变量
+以下f2函数就是一个闭包
+function f1(){var n=999;function f2(){n+=1;console.log(n);}return f2;} var result=f1();result();
+2.让这些变量的值始终保持在内存中
+function f1(){var n=999;nAdd=function(){n+=1};function f2(){console.log(n)};return f2;} 
+var result = f1(); 
+result(); //999
+nAdd(); 
+result();//1000
+原因:在这段带代码中,result实际上就是闭包f2函数,他一共运行了两次,第一次时值是999,第二次值是1000,这就说明变量n一直存在内存中.
+主要原因是f1是f2的父函数,而f2被赋予了一个全局变量n;
