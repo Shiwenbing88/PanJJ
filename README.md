@@ -1,3 +1,3 @@
 # PanJJ
-sample sql and some js and java
-learn js
+sample sql and some js and java gists
+
