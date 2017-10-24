@@ -1,0 +1,5 @@
+Ajax能够实现异步传输,所依赖的就是JavaScript中的XMLHttpRequest对象。
+XMLHttpRequest对象是XMLHttp组建的对象，它是一个抽象的对象，允许脚本从服务器返回的数据或者将数据发送到服务器。
+XMLHttpRequest可以实现客户端与服务器只进行数据层面的交互，不必每次刷新页面。
+XMLHttpRequest最早在IE 5.0中作为一个ActiveX控件提供，后被广泛运用。
+在使用XMLHttpRequest发送前求和处理相应之前需要先创建一个XMLHttpRequest。
