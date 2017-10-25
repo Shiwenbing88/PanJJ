@@ -1,5 +1,22 @@
+什么是Ajax？
+Ajax = 异步的JavaScript和XML
+为什么能够异步？
 Ajax能够实现异步传输,所依赖的就是JavaScript中的XMLHttpRequest对象。
+什么是XMLHttpRequest对象？
 XMLHttpRequest对象是XMLHttp组建的对象，它是一个抽象的对象，允许脚本从服务器返回的数据或者将数据发送到服务器。
 XMLHttpRequest可以实现客户端与服务器只进行数据层面的交互，不必每次刷新页面。
 XMLHttpRequest最早在IE 5.0中作为一个ActiveX控件提供，后被广泛运用。
 在使用XMLHttpRequest发送前求和处理相应之前需要先创建一个XMLHttpRequest。
+XMLHttpRequest对象用于和服务器交换数据。
+如果需要将请求发送到服务器，我们使用XMLHttpRequest对象的open()和send()方法。
+var xhr = new XMLHttpRequest() ;
+xhr.open(method , url , async) method : 请求类型get或者post；url:文件在服务器的位置；async:true(异步)，false(同步)；
+xhr.send(string) string 只限于post 请求；
+Ajax响应服务？
+xhr.responseText() 获得字符串形式的响应；
+xhr.responseXML() 获得XML形式的响应；
+Ajax -onreadystatechange事件
+当请求被发送到服务器时，我们需要执行一些基于响应的任务。
+每当readyState改变时，就会触发onreadystatechange事件。
+readyState属性存有XMLHttpRequest的状态信息。
+
